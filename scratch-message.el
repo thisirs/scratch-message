@@ -124,18 +124,23 @@ try."
 
 (defun scratch-message-toggle-activate (&optional arg)
   "Toggle `scratch-message'. If ARG is non-nil, activate
-`scratch-message' if ARG is non-numeric or >= 0."
-  (interactive "P")
-  (if (timerp scratch-message-timer)
-      (if (and arg (> (prefix-numeric-value arg) 0))
-          (error "Already enabled!")
-        (cancel-timer scratch-message-timer)
-        (setq scratch-message-timer nil)
-        (message "scratch-message disabled"))
-    (if (and arg (< (prefix-numeric-value arg) 0))
-        (error "Already disabled!")
-      (scratch-message-new-message)
-      (message "scratch-message enabled"))))
+`scratch-message' if ARG is non-numeric or >= 0.
+
+With a prefix argument ARG, enable `scratch-message' if ARG is
+positive, and disable it otherwise. If called from Lisp, enable
+`scratch-message' if ARG is omitted or nil."
+  (interactive (list (or current-prefix-arg 'toggle)))
+  (let ((enabled (if (eq arg 'toggle)
+                     (not (timerp scratch-message-timer))
+                   (> (prefix-numeric-value arg) 0))))
+
+    (if enabled
+        (scratch-message-new-message)
+      (cancel-timer scratch-message-timer)
+      (setq scratch-message-timer nil))
+
+    (when (called-interactively-p 'any)
+      (message "scratch-message %sabled" (if enabled "en" "dis")))))
 
 (provide 'scratch-message)
 
