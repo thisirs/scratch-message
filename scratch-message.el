@@ -22,6 +22,15 @@
 
 ;;; Commentary:
 
+;; This utility allows you to automatically insert messages in your
+;; scratch buffer coming from various sources.
+
+;;; Installation:
+
+;; Just put the following in your .emacs:
+
+;; (require 'scratch-message)
+
 ;;; Code
 
 (defvar scratch-message-function
