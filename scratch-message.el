@@ -52,29 +52,29 @@ visible.")
 (defvar scratch-message-end-marker (make-marker))
 (defvar scratch-message-timestamp nil)
 
-(defun scratch-message-insert (s &optional fill)
-  "Replace current scratch message or insert it at the end of the scratch buffer.
+(defun scratch-message-insert (message)
+  "Replace or insert the message MESSAGE in the scratch buffer."
+  (if (get-buffer "*scratch*")
+      (with-current-buffer "*scratch*"
+        (if (and (marker-position scratch-message-beg-marker)
+                 (marker-position scratch-message-end-marker))
+            (delete-region scratch-message-beg-marker scratch-message-end-marker))
+        (save-excursion
+          (goto-char (or (marker-position scratch-message-beg-marker)
+                         (point-max)))
+          (set-marker scratch-message-beg-marker (point))
+          (insert message)
+          (set-marker scratch-message-end-marker (point))
+          (comment-region scratch-message-beg-marker
+                          scratch-message-end-marker)))
+    (error "No scratch buffer")))
 
-If FILL is non-nil, the string is filled."
-  (with-current-buffer (get-buffer-create "*scratch*")
-    (if (and (marker-position scratch-message-beg-marker)
-             (marker-position scratch-message-end-marker))
-        (delete-region scratch-message-beg-marker scratch-message-end-marker))
-    (save-excursion
-      (goto-char (if (marker-position scratch-message-beg-marker)
-                     (marker-position scratch-message-beg-marker)
-                   (point-max)))
-      (set-marker scratch-message-beg-marker (point))
-      (insert s)
-      (set-marker scratch-message-end-marker (point))
-      (comment-region scratch-message-beg-marker
-                      scratch-message-end-marker)
-      (if fill
-          (let ((paragraph-start "^")
-                (paragraph-separate "\n")
-                (fill-prefix ";; "))
-            (fill-region scratch-message-beg-marker
-                         scratch-message-end-marker))))))
+(defmacro with-fill-line-by-line (&rest body)
+  "Executes BODY with line by line filling settings."
+  `(let ((paragraph-start "^")
+         (paragraph-separate "\n")
+         (fill-prefix ";; "))
+     (progn ,@body)))
 
 (defun scratch-message-default ()
   (let* ((message-buffer-name "*SCMB*")
@@ -90,15 +90,17 @@ If FILL is non-nil, the string is filled."
      (lambda (process event)
        (when (string= "finished\n" event)
          (scratch-message-insert
-          (with-current-buffer "*SCMB*" (buffer-string)) 'fill))))))
+          (with-current-buffer "*SCMB*"
+            (with-fill-line-by-line
+             (fill-region (point-min) (point-max)))
+            (buffer-string))))))))
 
 (defun scratch-message-fortune ()
   (require 'fortune)
   (fortune-in-buffer t "~/.conky/english-idioms")
   (scratch-message-insert
    (with-current-buffer fortune-buffer-name
-     (buffer-string))
-   'fill))
+     (buffer-string))))
 
 (defun scratch-message-new-message ()
   "Display a new message in scratch buffer.
