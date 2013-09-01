@@ -113,10 +113,11 @@ try."
            (get-buffer-window "*scratch*"))
       (setq scratch-message-timer
             (run-with-timer scratch-message-retry nil 'scratch-message-new-message))
-    (when (or (not scratch-message-timestamp)
-              (time-less-p scratch-message-timestamp
-                           (buffer-local-value 'buffer-display-time
-                                               (get-buffer "*scratch*"))))
+    (when (and (get-buffer "*scratch*")
+               (or (not scratch-message-timestamp)
+                   (time-less-p scratch-message-timestamp
+                                (buffer-local-value 'buffer-display-time
+                                                    (get-buffer "*scratch*")))))
       (funcall scratch-message-function)
       (setq scratch-message-timestamp (current-time)))
     (setq scratch-message-timer (run-with-timer
