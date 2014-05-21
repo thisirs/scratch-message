@@ -31,6 +31,8 @@
 
 ;; (require 'scratch-message)
 
+;; and customize the variable `scratch-message-function'.
+
 ;;; Code
 
 (defvar scratch-message-function 'ignore
