@@ -97,6 +97,7 @@ try."
                                  nil
                                  'scratch-message-new-message))))
 
+;;;###autoload
 (defun scratch-message-toggle-activate (&optional arg)
   "Toggle `scratch-message'. If ARG is non-nil, activate
 `scratch-message' if ARG is non-numeric or >= 0.
