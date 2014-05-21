@@ -33,8 +33,10 @@
 
 ;;; Code
 
-(defvar scratch-message-function
-  'scratch-message-default)
+(defvar scratch-message-function 'ignore
+  "Function called by `scratch-message-new-message' that should
+generate a message and insert it by calling
+`scratch-message-insert'.")
 
 (defvar scratch-message-interval 10
   "Time in seconds to wait between two messages.")
@@ -68,39 +70,6 @@ visible.")
           (comment-region scratch-message-beg-marker
                           scratch-message-end-marker)))
     (error "No scratch buffer")))
-
-(defmacro with-fill-line-by-line (&rest body)
-  "Executes BODY with line by line filling settings."
-  `(let ((paragraph-start "^")
-         (paragraph-separate "\n")
-         (fill-prefix ";; "))
-     (progn ,@body)))
-
-(defun scratch-message-default ()
-  (let* ((message-buffer-name "*SCMB*")
-         (message-buffer (or (get-buffer message-buffer-name)
-                             (generate-new-buffer message-buffer-name)))
-         (proc (start-process "SCMB" message-buffer-name "ruby"
-                              "/home/sylvain/Dropbox/scripts/DTC.rb")))
-    (with-current-buffer message-buffer-name
-      (let ((inhibit-read-only t))
-        (erase-buffer)))
-    (set-process-sentinel
-     proc
-     (lambda (process event)
-       (when (string= "finished\n" event)
-         (scratch-message-insert
-          (with-current-buffer "*SCMB*"
-            (with-fill-line-by-line
-             (fill-region (point-min) (point-max)))
-            (buffer-string))))))))
-
-(defun scratch-message-fortune ()
-  (require 'fortune)
-  (fortune-in-buffer t "~/.conky/english-idioms")
-  (scratch-message-insert
-   (with-current-buffer fortune-buffer-name
-     (buffer-string))))
 
 (defun scratch-message-new-message ()
   "Display a new message in scratch buffer.
