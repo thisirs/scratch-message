@@ -111,7 +111,7 @@ positive, and disable it otherwise. If called from Lisp, enable
                    (> (prefix-numeric-value arg) 0))))
 
     (if enabled
-        (scratch-message-new-message)
+        (run-with-timer 10 nil 'scratch-message-new-message)
       (cancel-timer scratch-message-timer)
       (setq scratch-message-timer nil))
 
