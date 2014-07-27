@@ -57,15 +57,22 @@ visible.")
 (defvar scratch-message-timestamp nil)
 
 (defun scratch-message-insert (message)
-  "Replace or insert the message MESSAGE in the scratch buffer."
+  "Replace or insert the message MESSAGE in the scratch buffer.
+
+If there is no previous message, insert MESSAGE at the end of the
+buffer, make sure we are on a beginning of a line and add three
+newlines at the end of the message."
   (if (get-buffer "*scratch*")
       (with-current-buffer "*scratch*"
         (if (and (marker-position scratch-message-beg-marker)
                  (marker-position scratch-message-end-marker))
             (delete-region scratch-message-beg-marker scratch-message-end-marker))
         (save-excursion
-          (goto-char (or (marker-position scratch-message-beg-marker)
-                         (point-max)))
+          (if (marker-position scratch-message-beg-marker)
+              (goto-char (marker-position scratch-message-beg-marker))
+            (goto-char (point-max))
+            (or (bolp) (insert "\n"))
+            (save-excursion (insert "\n\n\n")))
           (set-marker scratch-message-beg-marker (point))
           (insert message)
           (set-marker scratch-message-end-marker (point))
