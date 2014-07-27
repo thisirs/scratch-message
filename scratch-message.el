@@ -83,7 +83,6 @@ newlines at the end of the message."
 (defun scratch-message-trigger-message ()
   "Trigger the display of a new message and schedule a new one in scratch buffer.
 
-
 If `scratch-message-invisible' is non-nil and the scratch buffer
 is currently displayed in one of the windows of the current
 frame, wait `scratch-message-retry' seconds before giving another
