@@ -36,7 +36,7 @@
 ;;; Code
 
 (defvar scratch-message-function 'ignore
-  "Function called by `scratch-message-new-message' that should
+  "Function called by `scratch-message-trigger-message' that should
 generate a message and insert it by calling
 `scratch-message-insert'.")
 
@@ -73,8 +73,9 @@ visible.")
                           scratch-message-end-marker)))
     (error "No scratch buffer")))
 
-(defun scratch-message-new-message ()
-  "Display a new message in scratch buffer.
+(defun scratch-message-trigger-message ()
+  "Trigger the display of a new message and schedule a new one in scratch buffer.
+
 
 If `scratch-message-invisible' is non-nil and the scratch buffer
 is currently displayed in one of the windows of the current
@@ -83,7 +84,7 @@ try."
   (if (and scratch-message-invisible
            (get-buffer-window "*scratch*"))
       (setq scratch-message-timer
-            (run-with-timer scratch-message-retry nil 'scratch-message-new-message))
+            (run-with-timer scratch-message-retry nil 'scratch-message-trigger-message))
     (when (and (get-buffer "*scratch*")
                (or (not scratch-message-timestamp)
                    (and (let ((ts (buffer-local-value 'buffer-display-time
@@ -95,7 +96,7 @@ try."
     (setq scratch-message-timer (run-with-timer
                                  scratch-message-interval
                                  nil
-                                 'scratch-message-new-message))))
+                                 'scratch-message-trigger-message))))
 
 ;;;###autoload
 (defun scratch-message-toggle-activate (&optional arg)
@@ -111,7 +112,7 @@ positive, and disable it otherwise. If called from Lisp, enable
                    (> (prefix-numeric-value arg) 0))))
 
     (if enabled
-        (run-with-timer 10 nil 'scratch-message-new-message)
+        (run-with-timer 30 nil 'scratch-message-trigger-message)
       (cancel-timer scratch-message-timer)
       (setq scratch-message-timer nil))
 
