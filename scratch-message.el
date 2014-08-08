@@ -33,7 +33,7 @@
 
 ;; and customize the variable `scratch-message-function'.
 
-;;; Code
+;;; Code:
 
 (defvar scratch-message-function 'ignore
   "Function called by `scratch-message-trigger-message' that should
