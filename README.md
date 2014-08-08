@@ -1,4 +1,4 @@
-# scratch-message.el
+# scratch-message
 
 This utility allows you to automatically insert messages in your
 scratch buffer coming from various sources.
@@ -6,7 +6,6 @@ scratch buffer coming from various sources.
 ## Installation
 
 Just put the following in your `.emacs`:
-
 ```lisp
 (require 'scratch-message)
 ```
