@@ -1,6 +1,6 @@
 ;;; scratch-message.el --- Changing message in your scratch buffer
 
-;; Copyright (C) 2013-2015 Sylvain Rousseau
+;; Copyright (C) 2013-2016 Sylvain Rousseau
 
 ;; Author: Sylvain Rousseau <thisirs at gmail dot com>
 ;; Maintainer: Sylvain Rousseau <thisirs at gmail dot com>
