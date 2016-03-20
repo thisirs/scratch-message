@@ -31,7 +31,8 @@
 
 ;; (require 'scratch-message)
 
-;; and customize the variable `scratch-message-function'.
+;; and customize the variable `scratch-message-quotes' holding the
+;; list of quotes or the variable `scratch-message-function'.
 
 ;;; Code:
 
