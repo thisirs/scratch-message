@@ -280,25 +280,15 @@ try."
                                  'scratch-message-trigger-message))))
 
 ;;;###autoload
-(defun scratch-message-toggle-activate (&optional arg)
-  "Toggle `scratch-message'. If ARG is non-nil, activate
-`scratch-message' if ARG is non-numeric or >= 0.
+(define-minor-mode scratch-message-mode
+  "Minor mode to insert message in your scratch buffer."
+  :lighter ""
+  :global t
+  (if scratch-message-mode
+      (setq scratch-message-timer (run-with-timer 30 nil 'scratch-message-trigger-message))
+    (if (timerp scratch-message-timer) (cancel-timer scratch-message-timer))
+    (setq scratch-message-timer nil)))
 
-With a prefix argument ARG, enable `scratch-message' if ARG is
-positive, and disable it otherwise. If called from Lisp, enable
-`scratch-message' if ARG is omitted or nil."
-  (interactive (list (or current-prefix-arg 'toggle)))
-  (let ((enabled (if (eq arg 'toggle)
-                     (not (timerp scratch-message-timer))
-                   (> (prefix-numeric-value arg) 0))))
-
-    (if enabled
-        (run-with-timer 30 nil 'scratch-message-trigger-message)
-      (cancel-timer scratch-message-timer)
-      (setq scratch-message-timer nil))
-
-    (when (called-interactively-p 'any)
-      (message "scratch-message %sabled" (if enabled "en" "dis")))))
 
 (provide 'scratch-message)
 
