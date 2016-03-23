@@ -106,9 +106,9 @@ like it or not.
                                                         - Virgil Garnett Thomson"
     "Even if you’re on the right track, you’ll get run over if you just sit there.
                                                                    - Will Rogers"
-    "People often say that motivation doesn’t last. Well, neither does bathing -"
-    that’s why we recommend it daily.
-    "                                                                    - Zig Ziglar"
+    "People often say that motivation doesn’t last. Well, neither does bathing -
+that’s why we recommend it daily.
+                                                                        - Zig Ziglar"
     "Before I got married I had six theories about bringing up children; now I have
 six children and no theories.
                                                                    - John Wilmot"
@@ -203,7 +203,7 @@ traffic in a car that you are still paying for – in order to get to the job yo
 need to pay for the clothes and the car, and the house you leave vacant all day
 so you can afford to live in it.
                                                                  - Ellen Goodman"
-    The cure for boredom is curiosity. There is no cure for curiosity".
+    "The cure for boredom is curiosity. There is no cure for curiosity.
                                                                     - Ellen Parr"
     "Advice is what we ask for when we already know the answer but wish we didn’t.
                                                                     - Erica Jong"
