@@ -231,6 +231,18 @@ him.
 (defun scratch-message-function-default ()
   (scratch-message-insert (nth (random (length scratch-message-quotes)) scratch-message-quotes)))
 
+(defun scratch-message-fortune ()
+  "Return a fortune as a string.
+
+You need to properly set the value of `fortune-file' first. This
+function can be used in place of
+`scratch-message-function-default'."
+  (require 'fortune)
+  (fortune-in-buffer t)
+  (scratch-message-insert
+   (with-current-buffer fortune-buffer-name
+     (buffer-string))))
+
 (defun scratch-message-insert (message)
   "Replace or insert the message MESSAGE in the scratch buffer.
 
