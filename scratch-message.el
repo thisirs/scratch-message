@@ -229,6 +229,7 @@ him.
 (defvar scratch-message-timestamp nil)
 
 (defun scratch-message-function-default ()
+  "Default function called to display a new quote."
   (scratch-message-insert (nth (random (length scratch-message-quotes)) scratch-message-quotes)))
 
 (defun scratch-message-fortune ()
