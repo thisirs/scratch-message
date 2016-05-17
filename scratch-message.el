@@ -36,22 +36,35 @@
 
 ;;; Code:
 
-(defvar scratch-message-function 'scratch-message-function-default
-  "Function called by `scratch-message-trigger-message' that should
-generate a message and insert it by calling
-`scratch-message-insert'.")
+;;; Customization
+(defgroup scratch-message nil
+  "Changing message in your scratch buffer."
+  :group 'environment)
 
-(defvar scratch-message-interval 10
-  "Time in seconds to wait between two messages.")
+(defcustom scratch-message-function 'scratch-message-function-default
+  "Function called by `scratch-message-trigger-message' that
+should generate a message and insert it by calling
+`scratch-message-insert'."
+  :group 'scratch-message
+  :type 'function)
 
-(defvar scratch-message-invisible t
+(defcustom scratch-message-interval 10
+  "Time in seconds to wait between two messages."
+  :group 'scratch-message
+  :type 'number)
+
+(defcustom scratch-message-invisible t
   "If non-nil, do not change message if the scratch buffer is
-visible.")
+visible."
+  :group 'scratch-message
+  :type 'boolean)
 
-(defvar scratch-message-retry 3
-  "Time in seconds to wait before trying to redisplay.")
+(defcustom scratch-message-retry 3
+  "Time in seconds to wait before trying to redisplay."
+  :group 'scratch-message
+  :type 'number)
 
-(defvar scratch-message-quotes
+(defcustom scratch-message-quotes
   '("You can do anything, but not everything.
                                                                    - David Allen"
     "Perfection is achieved, not when there is nothing more to add, but when there is
@@ -220,7 +233,9 @@ of humor was provided to console him for what he is.
     "When a person can no longer laugh at himself, it is time for others to laugh at
 him.
                                                                   - Thomas Szasz")
-  "Some quotes taken from https://litemind.com/best-famous-quotes/")
+  "Some quotes taken from https://litemind.com/best-famous-quotes/"
+  :group 'scratch-message
+  :type '(repeat string))
 
 ;; Internal variables
 (defvar scratch-message-timer nil)
