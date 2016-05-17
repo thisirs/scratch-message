@@ -271,7 +271,7 @@ try."
                    (and (let ((ts (buffer-local-value 'buffer-display-time
                                                       (get-buffer "*scratch*"))))
                           (and ts (time-less-p scratch-message-timestamp ts))))))
-      (with-demoted-errors "Error: %S"
+      (with-demoted-errors "scratch-message error: %S"
           (funcall scratch-message-function))
       (setq scratch-message-timestamp (current-time)))
     (setq scratch-message-timer (run-with-timer
