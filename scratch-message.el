@@ -313,7 +313,8 @@ try."
   :lighter ""
   :global t
   (if scratch-message-mode
-      (setq scratch-message-timer (run-with-timer 30 nil 'scratch-message-trigger-message))
+      (unless (timerp scratch-message-timer)
+        (setq scratch-message-timer (run-with-timer 30 nil 'scratch-message-trigger-message)))
     (if (timerp scratch-message-timer) (cancel-timer scratch-message-timer))
     (setq scratch-message-timer nil)))
 
