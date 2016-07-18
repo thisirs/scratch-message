@@ -279,7 +279,7 @@ newlines at the end of the message."
           (set-marker scratch-message-beg-marker (point))
           (insert message)
           (set-marker scratch-message-end-marker (point))
-          (let ((comment-start (or comment-start "")))
+          (let ((comment-start (or comment-start " ")))
             (comment-region scratch-message-beg-marker
                             scratch-message-end-marker))))
     (error "No scratch buffer")))
