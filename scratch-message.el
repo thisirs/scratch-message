@@ -267,21 +267,23 @@ buffer, make sure we are on a beginning of a line and add three
 newlines at the end of the message."
   (if (get-buffer "*scratch*")
       (with-current-buffer "*scratch*"
-        (if (and (marker-position scratch-message-beg-marker)
-                 (marker-position scratch-message-end-marker))
-            (delete-region scratch-message-beg-marker scratch-message-end-marker))
-        (save-excursion
-          (if (marker-position scratch-message-beg-marker)
-              (goto-char (marker-position scratch-message-beg-marker))
-            (goto-char (point-max))
-            (or (bolp) (insert "\n"))
-            (save-excursion (insert "\n\n\n")))
-          (set-marker scratch-message-beg-marker (point))
-          (insert message)
-          (set-marker scratch-message-end-marker (point))
-          (let ((comment-start (or comment-start " ")))
-            (comment-region scratch-message-beg-marker
-                            scratch-message-end-marker))))
+        (let ((bm (buffer-modified-p)))
+          (if (and (marker-position scratch-message-beg-marker)
+                   (marker-position scratch-message-end-marker))
+              (delete-region scratch-message-beg-marker scratch-message-end-marker))
+          (save-excursion
+            (if (marker-position scratch-message-beg-marker)
+                (goto-char (marker-position scratch-message-beg-marker))
+              (goto-char (point-max))
+              (or (bolp) (insert "\n"))
+              (save-excursion (insert "\n\n\n")))
+            (set-marker scratch-message-beg-marker (point))
+            (insert message)
+            (set-marker scratch-message-end-marker (point))
+            (let ((comment-start (or comment-start " ")))
+              (comment-region scratch-message-beg-marker
+                              scratch-message-end-marker)))
+          (set-buffer-modified-p bm)))
     (error "No scratch buffer")))
 
 (defun scratch-message-trigger-message ()
