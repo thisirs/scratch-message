@@ -287,12 +287,18 @@ newlines at the end of the message."
     (error "No scratch buffer")))
 
 (defun scratch-message-trigger-message ()
-  "Trigger the display of a new message and schedule a new one in scratch buffer.
+  "Display a new message and schedule for a new one.
 
-If `scratch-message-invisible' is non-nil and the scratch buffer
-is currently displayed in one of the windows of the current
-frame, wait `scratch-message-retry' seconds before giving another
-try."
+The function `scratch-message-function' that is actually
+displaying a new message is called when the two following
+conditions hold:
+
+- the previous message has already been seen (the *scratch*
+  buffer has been displayed in a window). If is has not, a retry
+  is scheduled in `scratch-message-retry' seconds.
+
+- the *scratch* buffer is not currently displayed in a window (can
+  be customized with `scratch-message-invisible'."
   (if (and scratch-message-invisible
            (get-buffer-window "*scratch*"))
       (setq scratch-message-timer
