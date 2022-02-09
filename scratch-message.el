@@ -274,7 +274,8 @@ newlines at the end of the message."
           (save-excursion
             (if (marker-position scratch-message-beg-marker)
                 (goto-char (marker-position scratch-message-beg-marker))
-              (goto-char (point-max))
+              (goto-char (point-min))
+              (search-forward (or initial-scratch-message "") nil t)
               (or (bolp) (insert "\n"))
               (save-excursion (insert "\n\n\n")))
             (set-marker scratch-message-beg-marker (point))
